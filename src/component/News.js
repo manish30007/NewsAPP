@@ -31,14 +31,18 @@ export class News extends Component {
     return string.charAt(0).toUpperCase()+string.slice(1);
   }
   async updateNew(){
-    const url=`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=8a9da2e11ff744ea975f0fe1c5f90eef&page=${this.state.page}&pageSize=${this.props.pageSize}`;
-    // this.setState({loading:true})
+    this.props.setProgress(15)
+    const url=`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apiKey}&page=${this.state.page}&pageSize=${this.props.pageSize}`;
+    this.setState({loading:true})
     let data=await fetch(url);
+    this.props.setProgress(35)
     let parsedData=await data.json();
+    this.props.setProgress(55)
     // console.log(parsedData);
     this.setState({articles:parsedData.articles,
       totalResults:parsedData.totalResults,loading:false
    })
+   this.props.setProgress(100)
   }
   async componentDidMount(){
     console.log("cdm");
@@ -54,7 +58,7 @@ export class News extends Component {
   }
   fetchMoreData = async() => {
    this.setState({page:this.state.page+1})
-   const url=`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=8a9da2e11ff744ea975f0fe1c5f90eef&page=${this.state.page+1}&pageSize=${this.props.pageSize}`;
+   const url=`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apiKey}&page=${this.state.page+1}&pageSize=${this.props.pageSize}`;
     // this.setState({loading:true})
     let data=await fetch(url);
     let parsedData=await data.json();
@@ -69,7 +73,7 @@ export class News extends Component {
     return (
     <>
         <h4 className=' text-center'>NewsMonkey-Top Headlines from {this.capitalizeFirstLetter(this.props.category)}</h4>
-        {this.state.loading&&<Spinning/>}
+        {/* {this.state.loading&&<Spinning/>} */}
         <InfiniteScroll
           dataLength={this.state.articles.length}
           next={this.fetchMoreData}
@@ -87,7 +91,6 @@ export class News extends Component {
         </div>
         </div>
         </InfiniteScroll>
-        
      </>
     )
   }

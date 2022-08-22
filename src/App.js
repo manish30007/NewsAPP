@@ -2,18 +2,27 @@
 import './App.css';
 import React, { Component } from 'react'
 import Navbar from './component/Navbar'
-import News from './component/News'
+import News  from './component/News'
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 //Your API key is: d943f98512b045c6ada2b91021fe63aa
+import LoadingBar from 'react-top-loading-bar'
 export default class App extends Component {
-  apiKey = process.env.REACT_APP_NEWS_API
-  pageSize=5;
+  apiKey = process.env.REACT_APP_News_API
+  pageSize=6;
+  state={
+    progress:0
+  }
+  setProgress=(progress)=>{
+    this.setState({progress:progress})
+  }     
   render() {
     return (
       <div>
       <Router>
        <Navbar/>
+       <LoadingBar color='#f11946' progress={this.state.progress} height={2.5} />
        <Switch>
+          <Route exact path="/Home"><News setProgress={this.setProgress} apiKey={this.apiKey} key="Home" pageSize={this.pageSize} country="in" category="general"/></Route> 
           <Route exact path="/"><News setProgress={this.setProgress} apiKey={this.apiKey} key="general" pageSize={this.pageSize} country="in" category="general"/></Route> 
           <Route exact path="/business"><News setProgress={this.setProgress} apiKey={this.apiKey} key="business" pageSize={this.pageSize} country="in" category="business"/></Route> 
           <Route exact path="/entertainment"><News setProgress={this.setProgress} apiKey={this.apiKey} key="entertainment" pageSize={this.pageSize} country="in" category="entertainment"/></Route> 

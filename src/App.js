@@ -5,7 +5,7 @@ import Navbar from './component/Navbar'
 import News  from './component/News'
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 //Your API key is: d943f98512b045c6ada2b91021fe63aa
-import LoadingBar from 'react-top-loading-bar'
+// import LoadingBar from 'react-top-loading-bar'
 const App =()=> {
   const apiKey = process.env.REACT_APP_News_API
   const pageSize=6;
@@ -20,7 +20,7 @@ const[progress,setProgress]=useState(0)
       <div>
       <Router>
        <Navbar/>
-       <LoadingBar color='#f11946' progress={progress} height={2.5} />
+       {/* <LoadingBar color='#f11946' progress={progress} height={2.5} /> */}
        <Switch>
           <Route exact path="/Home"><News showprogress={showprogress} apiKey={apiKey} key="Home" pageSize={pageSize} country="in" category="general"/></Route> 
           <Route exact path="/"><News showprogress={showprogress} apiKey={apiKey} key="general" pageSize={pageSize} country="in" category="general"/></Route> 
